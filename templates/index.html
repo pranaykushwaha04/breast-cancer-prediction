@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breast Cancer Prediction Model</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="background-decor"></div>
+    <div class="container">
+        <header>
+            <h1>Breast Cancer Prediction (CatBoost)</h1>
+            <p class="subtitle">A Machine Learning model to predict malignancy based on tumor features.</p>
+        </header>
+
+        <main>
+            <div class="controls-card">
+                <p>For demonstration purposes, you can fill all 30 fields with sample data.</p>
+                <div class="btn-group">
+                    <button id="fillBenignBtn" class="btn secondary">Fill Sample (Benign)</button>
+                    <button id="fillMalignantBtn" class="btn secondary">Fill Sample (Malignant)</button>
+                    <button id="clearBtn" class="btn outline">Clear All</button>
+                </div>
+            </div>
+
+            <form id="predictionForm" class="glass-panel">
+                <div class="features-grid">
+                    {% for feature in features %}
+                    <div class="form-group">
+                        <label for="{{ feature }}">{{ feature | replace('_', ' ') | title }}</label>
+                        <input type="number" id="{{ feature }}" name="{{ feature }}" step="any" required>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="submit-wrapper">
+                    <button type="submit" id="submitBtn" class="btn primary large">
+                        <span>Predict Diagnosis</span>
+                        <div class="spinner hidden"></div>
+                    </button>
+                </div>
+            </form>
+
+            <div id="resultCard" class="result-card hidden">
+                <h2>Prediction Result</h2>
+                <div class="result-content">
+                    <div id="predictionBadge" class="badge"></div>
+                    <div class="prob-wrapper">
+                        <p>Confidence: <strong id="probabilityText">--</strong></p>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>Developed for College Project Showcase</p>
+        </footer>
+    </div>
+    
+    <!-- Pass feature names to JS for dummy data generation -->
+    <script>
+        window.FEATURE_NAMES = {{ features | tojson | safe }};
+    </script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

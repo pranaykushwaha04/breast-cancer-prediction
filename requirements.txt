@@ -1,0 +1,5 @@
+Flask==3.0.0
+catboost==1.2.10
+pandas
+scikit-learn
+joblib
